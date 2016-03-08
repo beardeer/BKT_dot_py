@@ -4,19 +4,22 @@ import itertools
 import sys
 from tqdm import tqdm
 
+ALMOST_ONE = 0.999
+ALMOST_ZERO = 0.001
+
 class BKT(BaseEstimator):
     def __init__(self, step = 0.1, bounded = True, best_k0 = True):
-        self.k0 = 0.001
-        self.transit = 0.001
-        self.guess = 0.001
-        self.slip = 0.001
-        self.forget = 0.001
+        self.k0 = ALMOST_ZERO
+        self.transit = ALMOST_ZERO
+        self.guess = ALMOST_ZERO
+        self.slip = ALMOST_ZERO
+        self.forget = ALMOST_ZERO
 
-        self.k0_limit = 0.999
-        self.transit_limit = 0.999
-        self.guess_limit = 0.999
-        self.slip_limit = 0.999
-        self.forget_limit = 0.999
+        self.k0_limit = ALMOST_ONE
+        self.transit_limit = ALMOST_ONE
+        self.guess_limit = ALMOST_ONE
+        self.slip_limit = ALMOST_ONE
+        self.forget_limit = ALMOST_ONE
 
         self.step = step
         self.best_k0 = best_k0
@@ -33,10 +36,18 @@ class BKT(BaseEstimator):
             self.k0 = self._find_k0(X)
             self.k0_limit = self.k0 + self.step
 
-        k0s = np.arange(self.k0, self.k0_limit + self.step, self.step)
-        transits = np.arange(self.transit, self.transit_limit + self.step, self.step)
-        guesses = np.arange(self.guess, self.guess_limit + self.step, self.step)
-        slips = np.arange(self.slip, self.slip_limit + self.step, self.step)
+        k0s = np.arange(self.k0,
+            min(self.k0_limit + self.step, ALMOST_ONE),
+            self.step)
+        transits = np.arange(self.transit,
+            min(self.transit_limit + self.step, ALMOST_ONE),
+            self.step)
+        guesses = np.arange(self.guess,
+            min(self.guess_limit + self.step, ALMOST_ONE),
+            self.step)
+        slips = np.arange(self.slip,
+            min(self.slip_limit + self.step, ALMOST_ONE),
+            self.step)
 
         all_parameters = [k0s, transits, guesses, slips]
         parameter_pairs = list(itertools.product(*all_parameters))
@@ -95,7 +106,7 @@ if __name__ == "__main__":
     [1,1,0,0,1,1]
     ]
 
-    bkt = BKT(step = 0.01, best_k0 = True)
+    bkt = BKT(step = 0.01, bounded = False, best_k0 = True)
     bkt.fit(input_data)
     error, predictions =  bkt.predict([[0,0,0,0,0,0,1,1,1]])
     print error
