@@ -33,8 +33,8 @@ class BKT(BaseEstimator):
     def fit(self, X, y = None):
 
         if self.best_k0:
-            self.k0 = self._find_k0(X)
-            self.k0_limit = self.k0 + self.step
+            self.k0 = self._find_best_k0(X)
+            self.k0_limit = self.k0
 
         k0s = np.arange(self.k0,
             min(self.k0_limit + self.step, ALMOST_ONE),
@@ -88,7 +88,7 @@ class BKT(BaseEstimator):
 
         return (error / n)  ** 0.5, predictions
 
-    def _find_k0(self, X):
+    def _find_best_k0(self, X):
         res = [seq[0] for seq in X]
         return np.mean(res)
 
@@ -106,7 +106,7 @@ if __name__ == "__main__":
     [1,1,0,0,1,1]
     ]
 
-    bkt = BKT(step = 0.01, bounded = False, best_k0 = True)
+    bkt = BKT(step = 0.1, bounded = False, best_k0 = True)
     bkt.fit(input_data)
     error, predictions =  bkt.predict([[0,0,0,0,0,0,1,1,1]])
     print error
