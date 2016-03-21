@@ -62,7 +62,7 @@ class BKT(BaseEstimator):
                 self.slip = s
                 min_error = error
 
-        print "Traning RMSE: ", min_error
+        # print "Traning RMSE: ", min_error
         return self.k0, self.transit, self.guess, self.slip
 
     def _computer_error(self, X, k, t, g, s):
