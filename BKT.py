@@ -109,7 +109,7 @@ if __name__ == "__main__":
     bkt = BKT(step = 0.1, bounded = False, best_k0 = True)
     bkt.fit(input_data)
     error, predictions =  bkt.predict([[0,0,0,0,0,0,1,1,1]])
-    print error
-    print predictions
+    print (error)
+    print (predictions)
 
 
