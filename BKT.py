@@ -14,6 +14,7 @@ class BKT(BaseEstimator):
         self.guess = ALMOST_ZERO
         self.slip = ALMOST_ZERO
         self.forget = ALMOST_ZERO
+        self.current_k = ALMOST_ZERO
 
         self.k0_limit = ALMOST_ONE
         self.transit_limit = ALMOST_ONE
@@ -83,6 +84,7 @@ class BKT(BaseEstimator):
                     p = k * s / (k * s + (1 - k) * (1 - g))
                 k = p + (1 - p) * t
                 pred = k * (1 - s) + (1 - k) * g
+                self.current_k = k
                 # pred = k
             predictions.append(current_pred)
 
