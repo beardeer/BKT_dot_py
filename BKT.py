@@ -3,7 +3,7 @@
 The code is based on Professor Ryan Baker's Java code of Brute force BKT 
 (http://www.upenn.edu/learninganalytics/ryanbaker/edmtools.html)
 This purpose of this module to find the best combination of Bayesian Knowledge tracing's 
-parameters, by try every single possible combination 
+parameters, by trying every single possible combination.  
 """
 
 from sklearn.base import BaseEstimator
